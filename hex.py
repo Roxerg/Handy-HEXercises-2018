@@ -21,6 +21,7 @@ def train_model():
     y_count = 0
 
     for jdata in json_data:
+        print(jdata)
         for i in range(0, len(json_data[jdata])):
             x_count = 0
             for x in range(1, 5):
@@ -32,7 +33,11 @@ def train_model():
                 X_train[y_count][x_count] = 0
             elif jdata == "1":
                 X_train[y_count][x_count] = 1
+            elif jdata == "2":
+                X_train[y_count][x_count] = 2
             y_count = y_count + 1
+
+    print(X_train)
 
     np.random.shuffle(X_train)
     Y_train = X_train[:,-1]
@@ -41,7 +46,7 @@ def train_model():
     #svm_model = RandomForestClassifier(n_jobs=2, random_state=0)
     #svm_model.fit(X_train, Y_train)
 
-    svm_model = svm.SVC(probability=True)
+    svm_model = svm.SVC(kernel="poly", decision_function_shape="ovr", probability=True)
     svm_model.fit(X_train, Y_train)
 
     print("Training SVM on " + str(X_train.shape[0]) + " samples")
@@ -79,6 +84,8 @@ def test_model():
                 X_test[y_count][x_count] = 0
             elif jdata == "1":
                 X_test[y_count][x_count] = 1
+            elif jdata == "2":
+                X_test[y_count][x_count] = 2
             y_count = y_count + 1
 
     Y_test = X_test[:,-1]
