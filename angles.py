@@ -20,6 +20,7 @@ class AngleListener(Leap.Listener):
     def on_frame(self, controller):
         frame = controller.frame()
         for hand in frame.hands:
+            print(hand)
             normal = hand.palm_normal
             for finger in hand.fingers:
                 print(self.finger_names[finger.type] + " metacarpal-proximal angle: " + str(self._angle(finger.bone(0).direction,finger.bone(1).direction))+ " proximal-intermediate angle: " + str(self._angle(finger.bone(1).direction,finger.bone(2).direction)) + " intermediate-palm angle: "+  str(self._angle(finger.bone(2).direction,normal)) + "\n")
