@@ -33,29 +33,25 @@ class AngleListener(Leap.Listener):
             # Get fingers
             for finger in hand.fingers:
 
-                print "    %s finger, id: %d, length: %fmm, width: %fmm" % (
+                print "%s finger, id: %d, length: %fmm, width: %fmm" % (
                     self.finger_names[finger.type],
                     finger.id,
                     finger.length,
                     finger.width)
 
-                # Get bones
-                for b in range(0, 4):
-                    bone = finger.bone(b)
-                    print "      Bone: %s, start: %s, end: %s, direction: %s" % (
-                        self.bone_names[bone.type],
-                        bone.prev_joint,
-                        bone.next_joint,
-                        bone.direction)
-
+                # Get angle
+                try:
+                    print (self.angle(finger.bone(0).direction, finger.bone(1).direction))
+                except:
+                    raise
 
     def _dotproduct(self,v1,v2):
-        return sum((a*b) for a,b in zip(v1,v2))
+        return v1[0]*v2[0]+v1[1]*v2[1]+v1[2]*v2[2]
 
     def _length(self, v):
         return math.sqrt(self._dotproduct(v,v))
 
-    def _angle(self, v1, v2):
+    def angle(self, v1, v2):
         return math.acos(self._dotproduct(v1, v2) / (self._length(v1) * self._length(v2)))
 
 def main():
