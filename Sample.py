@@ -19,68 +19,51 @@ def angle(v1,v2):
     angle = math.acos(top/bottom)
     return angle
 
+def dict_making(controller, json_formatted_data, count):
+    while controller.is_connected:
+        frame = controller.frame()
+        for hand in frame.hands:
+            finger_dict = {}
+            for finger in hand.fingers:
+                if finger.type == 0:
+                    continue
+                angle12 = angle(finger.bone(1).direction, finger.bone(2).direction)
+                angle23 = angle(finger.bone(2).direction, finger.bone(3).direction)
+                angle3palm = angle(finger.bone(3).direction, hand.palm_normal)
+                finger_dict[finger.type] = {"MPA": angle12, "PIA": angle23, "IPA": angle3palm}
+            json_formatted_data[str(count)] = finger_dict
+        count = count + 1
+        time.sleep(1)
+        print(count)
+        if count == 5:
+            break
+    return json_formatted_data
+
 def main():
     controller = Leap.Controller()
 
     time.sleep(2)
-    count = 0
-    json_formatted_data_none = {}
+
     final_data = {}
 
     print("None")
-
-    while controller.is_connected:
-        frame = controller.frame()
-        for hand in frame.hands:
-            finger_dict = {}
-            for finger in hand.fingers:
-                if finger.type == 0:
-                    continue
-                angle12 = angle(finger.bone(1).direction, finger.bone(2).direction)
-                angle23 = angle(finger.bone(2).direction, finger.bone(3).direction)
-                angle3palm = angle(finger.bone(3).direction, hand.palm_normal)
-                finger_dict[finger.type] = {"MPA": angle12, "PIA": angle23, "IPA": angle3palm}
-            json_formatted_data_none[str(count)] = finger_dict
-        count = count + 1
-        time.sleep(1)
-        print(count)
-        if count == 5:
-            break
-
+    count = 0
+    json_formatted_data_none = {}
+    json_formatted_data_none = dict_making(controller, json_formatted_data_none, count)
     final_data["none"] = json_formatted_data_none
 
     print("1")
-
+    time.sleep(1)
     count = 0
-
     json_formatted_data_1 = {}
-
-    while controller.is_connected:
-        frame = controller.frame()
-        for hand in frame.hands:
-            finger_dict = {}
-            for finger in hand.fingers:
-                if finger.type == 0:
-                    continue
-                angle12 = angle(finger.bone(1).direction, finger.bone(2).direction)
-                angle23 = angle(finger.bone(2).direction, finger.bone(3).direction)
-                angle3palm = angle(finger.bone(3).direction, hand.palm_normal)
-                finger_dict[finger.type] = {"MPA": angle12, "PIA": angle23, "IPA": angle3palm}
-            json_formatted_data_1[str(count)] = finger_dict
-        count = count + 1
-        time.sleep(1)
-        print(count)
-        if count == 5:
-            break
-
+    json_formatted_data_1 = dict_making(controller, json_formatted_data_1, count)
     final_data["1"] = json_formatted_data_1
 
+    # Making json and writing to a json file
     final_data = json.dumps(final_data)
-
-    text_file = open("output_file.json", "r+")
+    text_file = open("output_file_test.json", "r+")
     text_file.write(final_data)
     text_file.close()
-
 
     # Keep this process running until Enter is pressed
     print "Press Enter to quit..."
