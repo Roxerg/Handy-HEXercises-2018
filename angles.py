@@ -78,6 +78,28 @@ def main():
     # Create a sample listener and controller
     controller = Leap.Controller()
     sleep(5)
+<<<<<<< HEAD
+
+<<<<<<< HEAD
+    def angle(self, v1, v2):
+        return math.acos(self._dotproduct(v1, v2) / (v1.length * v2.length))
+=======
+    #to keep shit spicy
+    controller.set_policy(Leap.Controller.POLICY_BACKGROUND_FRAMES)
+    controller.set_policy(Leap.Controller.POLICY_IMAGES)
+    controller.set_policy(Leap.Controller.POLICY_OPTIMIZE_HMD)
+    index = sys.argv[1]
+
+
+    while controller.is_connected:
+        frame = controller.frame()
+        #print("boo")
+        # Get hands
+        for hand in frame.hands:
+            handType = "Left hand" if hand.is_left else "Right hand"
+>>>>>>> 565f8a8e6ccb2bcf9fd66070468e9125f62fb8ec
+
+=======
 
     #to keep shit spicy
     controller.set_policy(Leap.Controller.POLICY_BACKGROUND_FRAMES)
@@ -92,41 +114,44 @@ def main():
         # Get hands
         for hand in frame.hands:
             handType = "Left hand" if hand.is_left else "Right hand"
+
+>>>>>>> 73b07a23e48b6a900a3f96c9e5c7f9ac91c31b8e
+            print "  %s, id %d, position: %s" % (
+                    handType, hand.id, hand.palm_position)
+
                 # Get the hand's normal vector and direction
                 # normal = hand.palm_normal
 
                 # Get fingers
             with open("rawdata.json", "r") as infile:
                 data = load(infile)
+
+            print "Skrrt" 
                     #do some json shit idk
             current = data[index]
-            try:
-                newBOI = {
-                "1":{"MPA":angle(hand.fingers(1).bone(0).direction,hand.fingers(1).bone(1).direction),
-                "PIA":angle(hand.fingers(1).bone(1).direction,hand.fingers(1).bone(2).direction),
-                "IPA":angle(hand.fingers(1).bone(2).direction,hand.palm_normal)
-            },
-            "2":{"MPA":angle(hand.fingers(2).bone(0).direction,hand.fingers(2).bone(1).direction),
-                "PIA":angle(hand.fingers(2).bone(1).direction,hand.fingers(2).bone(2).direction),
-                "IPA":angle(hand.fingers(2).bone(2).direction,hand.palm_normal)
-            },
-            "3":{"MPA":angle(hand.fingers(3).bone(0).direction,hand.fingers(3).bone(1).direction),
-                "PIA":angle(hand.fingers(3).bone(1).direction,hand.fingers(3).bone(2).direction),
-                "IPA":angle(hand.fingers(3).bone(2).direction,hand.palm_normal)
-            },
-            "4":{"MPA":angle(hand.fingers(4).bone(0).direction,hand.fingers(4).bone(1).direction),
-                "PIA":angle(hand.fingers(4).bone(1).direction,hand.fingers(4).bone(2).direction),
-                "IPA":angle(hand.fingers(4).bone(2).direction,hand.palm_normal)
-            }
+            newBOI = {
+            "1":{"MPA":angle(hand.finger(1).bone(0).direction,hand.finger(1).bone(1).direction),
+            "PIA":angle(hand.finger(1).bone(1).direction,hand.finger(1).bone(2).direction),
+            "IPA":angle(hand.finger(1).bone(2).direction,hand.palm_normal)
+        },
+        "2":{"MPA":angle(hand.finger(2).bone(0).direction,hand.finger(2).bone(1).direction),
+            "PIA":angle(hand.finger(2).bone(1).direction,hand.finger(2).bone(2).direction),
+            "IPA":angle(hand.finger(2).bone(2).direction,hand.palm_normal)
+        },
+        "3":{"MPA":angle(hand.finger(3).bone(0).direction,hand.finger(3).bone(1).direction),
+            "PIA":angle(hand.finger(3).bone(1).direction,hand.finger(3).bone(2).direction),
+            "IPA":angle(hand.finger(3).bone(2).direction,hand.palm_normal)
+        },
+        "4":{"MPA":angle(hand.finger(4).bone(0).direction,hand.finger(4).bone(1).direction),
+            "PIA":angle(hand.finger(4).bone(1).direction,hand.finger(4).bone(2).direction),
+            "IPA":angle(hand.finger(4).bone(2).direction,hand.palm_normal)
         }
-                pprint(newBOI)
-                current.append(newBOI)
-                data[index] = current
-                with open("rawdata.json", "w") as outfile:
-                    dump(data, outfile)
-            except ZeroDivisionError:
-                print "you fucked up"
-                pass
+    }
+            pprint(newBOI)
+            current.append(newBOI)
+            data[index] = current
+            with open("rawdata.json", "w") as outfile:
+                dump(data, outfile)
 
     # Have the sample listener receive events from the controller
     #controller.add_listener(listener)
@@ -144,5 +169,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-    
