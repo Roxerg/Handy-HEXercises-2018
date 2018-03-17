@@ -92,43 +92,41 @@ def main():
         # Get hands
         for hand in frame.hands:
             handType = "Left hand" if hand.is_left else "Right hand"
-
-            print "  %s, id %d, position: %s" % (
-                    handType, hand.id, hand.palm_position)
-
                 # Get the hand's normal vector and direction
                 # normal = hand.palm_normal
 
                 # Get fingers
             with open("rawdata.json", "r") as infile:
                 data = load(infile)
-
-            print "Skrrt" 
                     #do some json shit idk
             current = data[index]
-            newBOI = {
-            "1":{"MPA":angle(hand.finger(1).bone(0).direction,hand.finger(1).bone(1).direction),
-            "PIA":angle(hand.finger(1).bone(1).direction,hand.finger(1).bone(2).direction),
-            "IPA":angle(hand.finger(1).bone(2).direction,hand.palm_normal)
-        },
-        "2":{"MPA":angle(hand.finger(2).bone(0).direction,hand.finger(2).bone(1).direction),
-            "PIA":angle(hand.finger(2).bone(1).direction,hand.finger(2).bone(2).direction),
-            "IPA":angle(hand.finger(2).bone(2).direction,hand.palm_normal)
-        },
-        "3":{"MPA":angle(hand.finger(3).bone(0).direction,hand.finger(3).bone(1).direction),
-            "PIA":angle(hand.finger(3).bone(1).direction,hand.finger(3).bone(2).direction),
-            "IPA":angle(hand.finger(3).bone(2).direction,hand.palm_normal)
-        },
-        "4":{"MPA":angle(hand.finger(4).bone(0).direction,hand.finger(4).bone(1).direction),
-            "PIA":angle(hand.finger(4).bone(1).direction,hand.finger(4).bone(2).direction),
-            "IPA":angle(hand.finger(4).bone(2).direction,hand.palm_normal)
+            try:
+                newBOI = {
+                "1":{"MPA":angle(hand.fingers(1).bone(0).direction,hand.fingers(1).bone(1).direction),
+                "PIA":angle(hand.fingers(1).bone(1).direction,hand.fingers(1).bone(2).direction),
+                "IPA":angle(hand.fingers(1).bone(2).direction,hand.palm_normal)
+            },
+            "2":{"MPA":angle(hand.fingers(2).bone(0).direction,hand.fingers(2).bone(1).direction),
+                "PIA":angle(hand.fingers(2).bone(1).direction,hand.fingers(2).bone(2).direction),
+                "IPA":angle(hand.fingers(2).bone(2).direction,hand.palm_normal)
+            },
+            "3":{"MPA":angle(hand.fingers(3).bone(0).direction,hand.fingers(3).bone(1).direction),
+                "PIA":angle(hand.fingers(3).bone(1).direction,hand.fingers(3).bone(2).direction),
+                "IPA":angle(hand.fingers(3).bone(2).direction,hand.palm_normal)
+            },
+            "4":{"MPA":angle(hand.fingers(4).bone(0).direction,hand.fingers(4).bone(1).direction),
+                "PIA":angle(hand.fingers(4).bone(1).direction,hand.fingers(4).bone(2).direction),
+                "IPA":angle(hand.fingers(4).bone(2).direction,hand.palm_normal)
+            }
         }
-    }
-            pprint(newBOI)
-            current.append(newBOI)
-            data[index] = current
-            with open("rawdata.json", "w") as outfile:
-                dump(data, outfile)
+                pprint(newBOI)
+                current.append(newBOI)
+                data[index] = current
+                with open("rawdata.json", "w") as outfile:
+                    dump(data, outfile)
+            except ZeroDivisionError:
+                print "you fucked up"
+                pass
 
     # Have the sample listener receive events from the controller
     #controller.add_listener(listener)
