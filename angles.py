@@ -19,11 +19,35 @@ class AngleListener(Leap.Listener):
 
     def on_frame(self, controller):
         frame = controller.frame()
+        # Get hands
         for hand in frame.hands:
-            print(hand)
+
+            handType = "Left hand" if hand.is_left else "Right hand"
+
+            print "  %s, id %d, position: %s" % (
+                handType, hand.id, hand.palm_position)
+
+            # Get the hand's normal vector and direction
             normal = hand.palm_normal
+
+            # Get fingers
             for finger in hand.fingers:
-                print(self.finger_names[finger.type] + " metacarpal-proximal angle: " + str(self._angle(finger.bone(0).direction,finger.bone(1).direction))+ " proximal-intermediate angle: " + str(self._angle(finger.bone(1).direction,finger.bone(2).direction)) + " intermediate-palm angle: "+  str(self._angle(finger.bone(2).direction,normal)) + "\n")
+
+                print "    %s finger, id: %d, length: %fmm, width: %fmm" % (
+                    self.finger_names[finger.type],
+                    finger.id,
+                    finger.length,
+                    finger.width)
+
+                # Get bones
+                for b in range(0, 4):
+                    bone = finger.bone(b)
+                    print "      Bone: %s, start: %s, end: %s, direction: %s" % (
+                        self.bone_names[bone.type],
+                        bone.prev_joint,
+                        bone.next_joint,
+                        bone.direction)
+
 
     def _dotproduct(self,v1,v2):
         return sum((a*b) for a,b in zip(v1,v2))
