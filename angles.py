@@ -41,6 +41,7 @@ class AngleListener(Leap.Listener):
 
                 # Get angle
                 try:
+                    print(finger.bone(0).length, finger.bone(1).length)
                     print (self.angle(finger.bone(0).direction, finger.bone(1).direction))
                 except:
                     raise
@@ -48,11 +49,10 @@ class AngleListener(Leap.Listener):
     def _dotproduct(self,v1,v2):
         return v1[0]*v2[0]+v1[1]*v2[1]+v1[2]*v2[2]
 
-    def _length(self, v):
-        return math.sqrt(self._dotproduct(v,v))
+
 
     def angle(self, v1, v2):
-        return math.acos(self._dotproduct(v1, v2) / (self._length(v1) * self._length(v2)))
+        return math.acos(self._dotproduct(v1, v2) / (v1.length * v2.length))
 
 def main():
     # Create a sample listener and controller
