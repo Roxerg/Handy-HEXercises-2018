@@ -74,16 +74,60 @@ class AngleListener(Leap.Listener):
 
 def main():
     # Create a sample listener and controller
-    listener = AngleListener()
     controller = Leap.Controller()
 
     #to keep shit spicy
     controller.set_policy(Leap.Controller.POLICY_BACKGROUND_FRAMES)
     controller.set_policy(Leap.Controller.POLICY_IMAGES)
     controller.set_policy(Leap.Controller.POLICY_OPTIMIZE_HMD)
+    index = sys.argv[1]
+    while True:
+        frame = controller.frame()
+        #print("boo")
+        # Get hands
+        for hand in frame.hands:
+
+            handType = "Left hand" if hand.is_left else "Right hand"
+
+            print "  %s, id %d, position: %s" % (
+                handType, hand.id, hand.palm_position)
+
+            # Get the hand's normal vector and direction
+            # normal = hand.palm_normal
+
+            # Get fingers
+            with open("rawdata.json", "r") as infile:
+                data = load(infile)
+            for finger in hand.fingers:
+                print ("reeee")
+                #do some json shit idk
+                current = data[index]
+                newBOI = {
+                            "metacarpal":{
+                                "direction" : tuple(finger.bone(0).direction),
+                                "length" : finger.bone(0).length
+                            },
+                            "proximal":{
+                                "direction" : tuple(finger.bone(1).direction),
+                                "length" : finger.bone(1).length
+                            },
+                            "intermediate":{
+                                "direction" : tuple(finger.bone(2).direction),
+                                "length" : finger.bone(2).length
+                            },
+                            "distal":{
+                                "direction" : tuple(finger.bone(3).direction),
+                                "length" : finger.bone(3).length
+                            }
+                            }
+                pprint(newBOI)
+                current.append(newBOI)
+                data[index] = current
+            with open("rawdata.json") as outfile:
+                dump(outfile, data)
 
     # Have the sample listener receive events from the controller
-    controller.add_listener(listener)
+    #controller.add_listener(listener)
 
     # Keep this process running until Enter is pressed
     print "Press Enter to quit..."
