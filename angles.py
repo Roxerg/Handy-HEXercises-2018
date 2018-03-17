@@ -3,14 +3,11 @@ from json import load, dump
 from pprint import pprint
 from time import sleep
 
-def angle(v1, v2):
-    return math.acos(dotproduct([x*v1.length for x in v1.direction], [x*v2.length for x in v2.direction]) / (v1.length * v2.length))
-
-def xangle(v1, v2):
-    return math.acos(dotproduct([x*v1.length for x in v1.direction], [x*sum([y*y for y in v2]) for x in v2]) / (v1.length * sum([x*x for x in v2])))
-
-def dotproduct(v1,v2):
-    return v1[0]*v2[0]+v1[1]*v2[1]+v1[2]*v2[2]
+def angle(v1,v2):
+    top = (v1[0] * v2[0]) + (v1[1] * v2[1]) + (v1[2] * v2[2])
+    bottom = math.sqrt((v1[0]*v1[0]) + (v1[1]*v1[1]) + (v1[2]*v1[2])) * math.sqrt((v2[0]*v2[0]) + (v2[1]*v2[1]) + (v2[2]*v2[2]))
+    angle = math.acos(top/bottom)
+    return angle
 
 
 class AngleListener(Leap.Listener):
@@ -110,21 +107,21 @@ def main():
                     #do some json shit idk
             current = data[index]
             newBOI = {
-            "1":{"MPA":angle(hand.finger(1).bone(0),hand.finger(1).bone(1)),
-            "PIA":angle(hand.finger(1).bone(1),hand.finger(1).bone(2)),
-            "IPA":xangle(hand.finger(1).bone(0),hand.palm_normal)
+            "1":{"MPA":angle(hand.finger(1).bone(0).direction,hand.finger(1).bone(1).direction),
+            "PIA":angle(hand.finger(1).bone(1).direction,hand.finger(1).bone(2).direction),
+            "IPA":angle(hand.finger(1).bone(2).direction,hand.palm_normal)
         },
-        "2":{"MPA":hand.finger(2).bone(0).direction.angle_to(hand.finger(2).bone(0).direction),
-            "PIA":hand.finger(2).bone(1).direction.angle_to(hand.finger(2).bone(2).direction),
-            "IPA":hand.finger(2).bone(2).direction.angle_to(hand.palm_normal)
+        "2":{"MPA":angle(hand.finger(2).bone(0).direction,hand.finger(2).bone(1).direction),
+            "PIA":angle(hand.finger(2).bone(1).direction,hand.finger(2).bone(2).direction),
+            "IPA":angle(hand.finger(2).bone(2).direction,hand.palm_normal)
         },
-        "3":{"MPA":hand.finger(3).bone(0).direction.angle_to(hand.finger(3).bone(0).direction),
-            "PIA":hand.finger(3).bone(1).direction.angle_to(hand.finger(3).bone(2).direction),
-            "IPA":hand.finger(3).bone(2).direction.angle_to(hand.palm_normal)
+        "3":{"MPA":angle(hand.finger(3).bone(0).direction,hand.finger(3).bone(1).direction),
+            "PIA":angle(hand.finger(3).bone(1).direction,hand.finger(3).bone(2).direction),
+            "IPA":angle(hand.finger(3).bone(2).direction,hand.palm_normal)
         },
-        "4":{"MPA":hand.finger(4).bone(0).direction.angle_to(hand.finger(4).bone(0).direction),
-            "PIA":hand.finger(4).bone(1).direction.angle_to(hand.finger(4).bone(2).direction),
-            "IPA":hand.finger(4).bone(2).direction.angle_to(hand.palm_normal)
+        "4":{"MPA":angle(hand.finger(4).bone(0).direction,hand.finger(4).bone(1).direction),
+            "PIA":angle(hand.finger(4).bone(1).direction,hand.finger(4).bone(2).direction),
+            "IPA":angle(hand.finger(4).bone(2).direction,hand.palm_normal)
         }
     }
             pprint(newBOI)
