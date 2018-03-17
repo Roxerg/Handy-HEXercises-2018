@@ -4,10 +4,11 @@ from pprint import pprint
 from time import sleep
 
 def angle(v1, v2):
-    try:
-        return math.acos(dotproduct([x*v1.length for x in v1.direction.to_float_array()], [x*v2.length for x in v2.direction.to_float_array()]) / (v1.length * v2.length))
-    except:
-        return math.acos(dotproduct([x*v1.length for x in v1.direction.to_float_array()], v2) / (v1.length * sum(x*x for x in v2.to_float_array())))
+    return math.acos(dotproduct([x*v1.length for x in v1.direction], [x*v2.length for x in v2.direction]) / (v1.length * v2.length))
+
+def xangle(v1, v2):
+    return math.acos(dotproduct([x*v1.length for x in v1.direction], [x*sum([y*y for y in v2]) for x in v2]) / (v1.length * sum([x*x for x in v2])))
+
 def dotproduct(v1,v2):
     return v1[0]*v2[0]+v1[1]*v2[1]+v1[2]*v2[2]
 
@@ -93,7 +94,6 @@ def main():
         #print("boo")
         # Get hands
         for hand in frame.hands:
-            print(type(hand.palm_normal))
             handType = "Left hand" if hand.is_left else "Right hand"
 
             print "  %s, id %d, position: %s" % (
@@ -112,7 +112,7 @@ def main():
             newBOI = {
             "1":{"MPA":angle(hand.finger(1).bone(0),hand.finger(1).bone(1)),
             "PIA":angle(hand.finger(1).bone(1),hand.finger(1).bone(2)),
-            "IPA":angle(hand.finger(1).bone(0),hand.palm_normal)
+            "IPA":xangle(hand.finger(1).bone(0),hand.palm_normal)
         },
         "2":{"MPA":hand.finger(2).bone(0).direction.angle_to(hand.finger(2).bone(0).direction),
             "PIA":hand.finger(2).bone(1).direction.angle_to(hand.finger(2).bone(2).direction),
