@@ -1,5 +1,11 @@
 import Leap, math,sys
 
+def angle(v1, v2):
+    return math.acos(dotproduct([x*v1.length for x in v1.direction], [x*v2.length for x in v2.direction]) / (v1.length * v2.length))
+def dotproduct(v1,v2):
+    return v1[0]*v2[0]+v1[1]*v2[1]+v1[2]*v2[2]
+
+
 class AngleListener(Leap.Listener):
     finger_names = ['Thumb', 'Index', 'Middle', 'Ring', 'Pinky']
     bone_names = ['Metacarpal', 'Proximal', 'Intermediate', 'Distal']
@@ -19,6 +25,7 @@ class AngleListener(Leap.Listener):
 
     def on_frame(self, controller):
         frame = controller.frame()
+        #print("boo")
         # Get hands
         for hand in frame.hands:
 
@@ -28,31 +35,16 @@ class AngleListener(Leap.Listener):
                 handType, hand.id, hand.palm_position)
 
             # Get the hand's normal vector and direction
-            normal = hand.palm_normal
+            # normal = hand.palm_normal
 
             # Get fingers
             for finger in hand.fingers:
+                print("skreeeeeeeee")
+                boo = str(angle(finger.bone(0),finger.bone(1)))
+                print ("MPA: " + boo)
+                print "reeee"
 
-                print "%s finger, id: %d, length: %fmm, width: %fmm" % (
-                    self.finger_names[finger.type],
-                    finger.id,
-                    finger.length,
-                    finger.width)
-
-                # Get angle
-                try:
-                    print(finger.bone(0).length, finger.bone(1).length)
-                    print (self.angle(finger.bone(0).direction, finger.bone(1).direction))
-                except:
-                    raise
-
-    def _dotproduct(self,v1,v2):
-        return v1[0]*v2[0]+v1[1]*v2[1]+v1[2]*v2[2]
-
-
-
-    def angle(self, v1, v2):
-        return math.acos(self._dotproduct(v1, v2) / (v1.length * v2.length))
+    
 
 def main():
     # Create a sample listener and controller
