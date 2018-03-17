@@ -6,15 +6,13 @@
 	<title>Handy HEXercise</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<link rel="stylesheet"
-          href="node_modules/material-components-web/dist/material-components-web.css">
+		  href="node_modules/material-components-web/dist/material-components-web.css">
+	<script src="leap.js"></script>
 </head>
-<body class="mdc-typography">
+<body class="mdc-typography" onload="checkLibrary()">
 	<div id="header">
 		<img id="logo" />
 		<h1 id="title" class="mdc-typography--display2">Handy <strong style="color: orange;">HEX</strong>ercises</h1>
-	</div>
-	<div id="vid">
-		<video></video>
 	</div>
 	<div id="bottom">
 		<button id="btn1">About</button>
@@ -22,6 +20,21 @@
 		<button id="btn3">How it Works</button>
 		<button id="btn4">Contact Us</button>
 	</div>
+
+
+	<h1>Leap JavaScript Sample</h1>
+    <div id="main">
+      <h3>Frame data:</h3>
+      <div id="frameData"></div>
+      <div style="clear:both;"></div>
+      <h3>Hand data:</h3>
+      <div id="handData"></div>
+      <div style="clear:both;"></div>
+      <h3>Finger data:</h3>
+      <div id="pointableData"></div>
+      <div style="clear:both;"></div>
+    </div>
+
 
 	<script src="node_modules/material-components-web/dist/material-components-web.js"></script>
 	<script>mdc.autoInit()</script>
