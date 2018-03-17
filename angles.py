@@ -78,6 +78,7 @@ def main():
     # Create a sample listener and controller
     controller = Leap.Controller()
     sleep(5)
+<<<<<<< HEAD
 
 <<<<<<< HEAD
     def angle(self, v1, v2):
@@ -98,6 +99,23 @@ def main():
             handType = "Left hand" if hand.is_left else "Right hand"
 >>>>>>> 565f8a8e6ccb2bcf9fd66070468e9125f62fb8ec
 
+=======
+
+    #to keep shit spicy
+    controller.set_policy(Leap.Controller.POLICY_BACKGROUND_FRAMES)
+    controller.set_policy(Leap.Controller.POLICY_IMAGES)
+    controller.set_policy(Leap.Controller.POLICY_OPTIMIZE_HMD)
+    index = sys.argv[1]
+
+
+    while controller.is_connected:
+        frame = controller.frame()
+        #print("boo")
+        # Get hands
+        for hand in frame.hands:
+            handType = "Left hand" if hand.is_left else "Right hand"
+
+>>>>>>> 73b07a23e48b6a900a3f96c9e5c7f9ac91c31b8e
             print "  %s, id %d, position: %s" % (
                     handType, hand.id, hand.palm_position)
 

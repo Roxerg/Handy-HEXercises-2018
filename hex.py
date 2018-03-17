@@ -11,7 +11,9 @@ def train_model():
     json_data = json.load(open("output_file.json", "r+"))
 
     number_of_features = 12
-    total_training_examples = len(json_data["none"]) + len(json_data["1"]) #+ len(json_data["two"])
+    total_training_examples = 0
+    for x in json_data:
+        total_training_examples = total_training_examples + len(json_data[x])
 
     X_train = np.zeros(shape=(total_training_examples, number_of_features+1))
     Y_train = np.zeros(shape=(total_training_examples))
@@ -76,12 +78,51 @@ def train_model():
 
     print("Training SVM on " + str(X_train.shape[0]) + " samples")
     print("Accuracy on training data: " + str(svm_model.score(X_train, Y_train)))
-    print("Predicted outcomes: " + str(svm_model.predict(X_test)))
-    print("Actual outcomes: " + str(Y_test))
-    print("Support vectors: " + str(len(svm_model.support_vectors_)))
+    #print("Support vectors: " + str(len(svm_model.support_vectors_)))
 
     pickle.dump(svm_model, open(model_filename, 'wb'))
 
+def test_model():
+
+    # Load the neural network model from a pickle file
+    svm_model = pickle.load(open(model_filename, 'rb'))
+
+    json_data = json.load(open("output_file_test.json", "r+"))
+
+    number_of_features = 12
+    total_training_examples = 0
+    for x in json_data:
+        total_training_examples = total_training_examples + len(json_data[x])
+
+    X_test = np.zeros(shape=(total_training_examples, number_of_features+1))
+    Y_test = np.zeros(shape=(total_training_examples))
+
+    y_count = 0
+
+    for jdata in json_data:
+        for i in range(0, len(json_data[jdata])):
+            x_count = 0
+            for x in range(1, 5):
+                X_test[y_count][0+x_count] = float(json_data[jdata][str(i)][str(x)]["MPA"])
+                X_test[y_count][1+x_count] = float(json_data[jdata][str(i)][str(x)]["PIA"])
+                X_test[y_count][2+x_count] = float(json_data[jdata][str(i)][str(x)]["IPA"])
+                x_count = x_count + 3
+            if jdata == "none":
+                X_test[y_count][x_count] = 0
+            elif jdata == "1":
+                X_test[y_count][x_count] = 1
+            elif jdata == "2":
+                X_test[y_count][x_count] = 2
+            y_count = y_count + 1
+
+    Y_test = X_test[:,-1]
+    X_test = X_test[:,:-1,]
+
+    print("Testing SVM on " + str(X_test.shape[0]) + " samples")
+    print("Accuracy on testing data: " + str(svm_model.score(X_test, Y_test)))
+    print("Predicted outcomes: " + str(svm_model.predict(X_test)))
+    print("Actual outcomes: " + str(Y_test))
 
 if __name__ == "__main__":
     train_model()
+    test_model()
