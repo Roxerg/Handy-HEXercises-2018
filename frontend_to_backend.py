@@ -14,7 +14,7 @@ def receive_request(jsondata):
 
     EXERCISE_ID = {"6": "half_bend", "5": "emoji", "4": "fingers", "3": "full_bend", "2": "mini_bend"}
 
-    id_of_the_exercise = jsondata[0]
+    id_of_the_exercise = str(jsondata[0])
 
     # Variables
     number_of_features = 12
@@ -23,10 +23,10 @@ def receive_request(jsondata):
     # Put the incoming data into X_test array to then feed it into the model
     x_count = 0
     for fingers in json_data:
-        if fingers == id_of_the_exercise:
+        if fingers == "exerciseid":
             continue
-        for angle in fingers:
-            X_test[0][0+x_count] = float(fingers[angle])
+        for angle in json_data[fingers]:
+            X_test[0][0+x_count] = float(json_data[fingers][angle])
             x_count += 1
 
     # Test the data on the model according to the exercise id
@@ -44,7 +44,7 @@ def receive_request(jsondata):
         result = "There is a freaking somewhere error"
 
     # Send the result to the webapp
-    send_info(result)
+    send_info(str(result[0]))
 
 
 # Function for testing the half_bend
