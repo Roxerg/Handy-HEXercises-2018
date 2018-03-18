@@ -9,7 +9,8 @@ import frontend_to_backend
 # Receives WS messages and passes them to a function
 async def consumer_handler(websocket, path):
     async for message in websocket:
-        frontend_to_backend(message)
+          res = frontend_to_backend(message) 
+          websocket.send(res) #sends result back to client
 
 start_server = websockets.serve(consumer_handler, 'localhost', 8000)
 

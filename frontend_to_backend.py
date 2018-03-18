@@ -4,13 +4,13 @@ import numpy as np
 from sklearn import svm
 
 
-# Rokas imports
-import wsclient
+# Rokas imports 
+#import wsclient #currently not needed#
 
 def receive_request(jsondata):
     # Receive the HTTP request from the webapp
 
-    jsondata = json.loads(jsondata)
+    json_data = json.loads(jsondata)
 
     EXERCISE_ID = {"6": half_bend, "5": emoji, "4": fingers}
 
