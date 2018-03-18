@@ -4,7 +4,7 @@ import numpy as np
 from sklearn import svm
 
 
-# Rokas imports 
+# Rokas imports
 #import wsclient #currently not needed#
 
 def receive_request(jsondata):
@@ -12,7 +12,7 @@ def receive_request(jsondata):
 
     json_data = json.loads(jsondata)
 
-    EXERCISE_ID = {"6": half_bend, "5": emoji, "4": fingers}
+    EXERCISE_ID = {"6": "half_bend", "5": "emoji", "4": "fingers", "3": "full_bend", "2": "mini_bend"}
 
     id_of_the_exercise = jsondata[0]
 
@@ -30,12 +30,16 @@ def receive_request(jsondata):
             x_count += 1
 
     # Test the data on the model according to the exercise id
-    if EXERCISE_ID[id_of_the_exercise] == "6":
+    if EXERCISE_ID[id_of_the_exercise] == "half_bend":
         result = half_bend(X_test)
-    elif EXERCISE_ID[id_of_the_exercise] == "5":
+    elif EXERCISE_ID[id_of_the_exercise] == "emoji":
         result = emoji(X_test)
-    elif EXERCISE_ID[id_of_the_exercise] == "4":
+    elif EXERCISE_ID[id_of_the_exercise] == "fingers":
         result = fingers(X_test)
+    elif EXERCISE_ID[id_of_the_exercise] == "full_bend":
+        result = full_bend(X_test)
+    elif EXERCISE_ID[id_of_the_exercise] == "mini_bend":
+        result = mini_bend(X_test)
     else:
         result = "There is a freaking somewhere error"
 
@@ -46,6 +50,20 @@ def receive_request(jsondata):
 # Function for testing the half_bend
 def half_bend(X_test):
     model_filename = "half_bend_svm.sav"
+    svm_model = pickle.load(open(model_filename, 'rb'))
+    result = svm_model.predict(X_test)
+    return result
+
+# Function for testing the full_bend
+def full_bend(X_test):
+    model_filename = "full_bend_svm.sav"
+    svm_model = pickle.load(open(model_filename, 'rb'))
+    result = svm_model.predict(X_test)
+    return result
+
+# Function for testing the mini_bend
+def mini_bend(X_test):
+    model_filename = "mini_hand_bend_svm.sav"
     svm_model = pickle.load(open(model_filename, 'rb'))
     result = svm_model.predict(X_test)
     return result
