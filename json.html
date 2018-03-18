@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="leap-0.6.4.js"></script>
+
+    <script>var controller = new Leap.Controller({ enableGestures: true });
+        var angles = {};
+        var json = "";
+        controller.loop(function (frame) {
+            var hand = frame.hands;
+            if (hand.length > 0) {
+                for (i = 1; i < 4; i++) {
+                    var finger = hand[0].fingers[1];
+                   // str += "<br>Metacarpal: " + i + " " + (finger.metacarpal.direction()).toString() +
+                     //   "<br>Proximal: " + (finger.proximal.direction()).toString() +
+                      //  "<br>Distal: " + (finger.distal.direction()).toString();
+                      {
+  "none":{
+      "0":{
+        "0":{
+          "MPA":1.0,
+          "PIA":1.0,
+          "IPA":1.0
+        },
+        "1":{
+          "MPA":1.0,
+          "PIA":1.0,
+          "IPA":1.0
+        },
+        "2":{
+          "MPA":1.0,
+          "PIA":0.0,
+          "IPA":1.0
+        },
+        "3":{
+          "MPA":1.0,
+          "PIA":1.0,
+          "IPA":1.0
+        }
+      },
+      "1":{
+        "0":{
+          "MPA":1.0,
+          "PIA":1.0,
+          "IPA":1.0
+        },
+        "1":{
+          "MPA":1.0,
+          "PIA":1.0,
+          "IPA":1.0
+        },
+        "2":{
+          "MPA":1.0,
+          "PIA":1.0,
+          "IPA":1.0
+        },
+        "3":{
+          "MPA":1.0,
+          "PIA":1.0,
+          "IPA":1.0
+        }
+      },
+      "2":{
+        "0":{
+          "MPA":1.0,
+          "PIA":1.0,
+          "IPA":1.0
+        },
+        "1":{
+          "MPA":1.0,
+          "PIA":1.0,
+          "IPA":1.0
+        },
+        "2":{
+          "MPA":1.0,
+          "PIA":1.0,
+          "IPA":1.0
+        },
+        "3":{
+          "MPA":1.0,
+          "PIA":1.0,
+          "IPA":1.0
+        }
+      }
+  },
+  "one":{
+      "0":{
+        "0":{
+          "MPA":1.0,
+          "PIA":1.0,
+          "IPA":1.0
+        },
+        "1":{
+          "MPA":1.0,
+          "PIA":1.0,
+          "IPA":1.0
+        },
+        "2":{
+          "MPA":1.0,
+          "PIA":1.0,
+          "IPA":1.0
+        },
+        "3":{
+          "MPA":1.0,
+          "PIA":1.0,
+          "IPA":1.0
+        }
+      }
+  },
+  "two":{
+      "0":{
+        "0":{
+          "MPA":1.0,
+          "PIA":1.0,
+          "IPA":1.0
+        },
+        "1":{
+          "MPA":1.0,
+          "PIA":1.0,
+          "IPA":1.0
+        },
+        "2":{
+          "MPA":1.0,
+          "PIA":1.0,
+          "IPA":1.0
+        },
+        "3":{
+          "MPA":1.0,
+          "PIA":0.0,
+          "IPA":1.0
+        }
+      }
+  }
+}
+
+                }
+
+                document.getElementById("out").innerHTML = str;
+            }
+            //   var normal = hand.palmNormal;
+
+
+        });  </script>
+</head>
+
+<body>
+    <pre>
+        <div id="out"></div>
+      </pre>
+</body>
+
+</html>
