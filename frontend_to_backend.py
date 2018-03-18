@@ -3,12 +3,18 @@ import pickle
 import numpy as np
 from sklearn import svm
 
-def receive_request():
+
+# Rokas imports
+import wsclient
+
+def receive_request(jsondata):
     # Receive the HTTP request from the webapp
+
+    jsondata = json.loads(jsondata)
 
     EXERCISE_ID = {"6": half_bend, "5": emoji, "4": fingers}
 
-    id_of_the_exercise
+    id_of_the_exercise = jsondata[0]
 
     # Variables
     number_of_features = 12
