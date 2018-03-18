@@ -14,7 +14,7 @@ def receive_request(jsondata):
 
     EXERCISE_ID = {"6": "half_bend", "5": "emoji", "4": "fingers", "3": "full_bend", "2": "mini_bend"}
 
-    id_of_the_exercise = str(jsondata[0])
+    id_of_the_exercise = str(jsondata["exerciseid"])
 
     # Variables
     number_of_features = 12
@@ -44,7 +44,7 @@ def receive_request(jsondata):
         result = "There is a freaking somewhere error"
 
     # Send the result to the webapp
-    send_info(str(result[0]))
+    return(str(result[0]))
 
 
 # Function for testing the half_bend
