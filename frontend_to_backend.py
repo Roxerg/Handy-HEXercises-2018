@@ -14,7 +14,7 @@ def receive_request(jsondata):
 
     EXERCISE_ID = {"6": "half_bend", "5": "emoji", "4": "fingers", "3": "full_bend", "2": "mini_bend"}
 
-    id_of_the_exercise = str(jsondata["exerciseid"])
+    id_of_the_exercise = str(json_data["exerciseid"])
 
     # Variables
     number_of_features = 12
@@ -23,7 +23,7 @@ def receive_request(jsondata):
     # Put the incoming data into X_test array to then feed it into the model
     x_count = 0
     for fingers in json_data:
-        if fingers == "exerciseid":
+        if fingers == "exerciseid" or fingers == "armdata":
             continue
         for angle in json_data[fingers]:
             X_test[0][0+x_count] = float(json_data[fingers][angle])
