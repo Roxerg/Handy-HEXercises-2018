@@ -4,9 +4,19 @@
 <head>
     <script src="leap-0.6.4.js"></script>
 
-    <script>var controller = new Leap.Controller({ enableGestures: true });
+    <script>
+    
+    
+         var ws = new WebSocket("ws://localhost:8000/")
+
+         ws.onmessage = function (event) {
+            // to test whether connection is working
+            console.log(event.data);
+            }
+        
+    
+        var controller = new Leap.Controller({ enableGestures: true });
         var angles = {};
-        var json = "";
         var angle = (function(v1,v2){
           var top = v1[0]*v2[0] + v1[1]*v2[1] + v1[2]*v2[2];
           var bottom = Math.sqrt(v1[0]*v1[0]+v1[1]*v1[1]+v1[2]*v1[2])*Math.sqrt(v2[0]*v2[0]+v2[1]*v2[1]+v2[2]*v2[2]);
@@ -15,7 +25,7 @@
         controller.loop(function (frame) {
             var hand = frame.hands;
             if (hand.length > 0) {
-              var gay = {
+              var json = {
         "0":{
           "MPA":angle(hand[0].fingers[1].metacarpal.direction(),hand[0].fingers[1].proximal.direction()),
           "PIA":angle(hand[0].fingers[1].proximal.direction(),hand[0].fingers[1].intermediate.direction()),
@@ -47,7 +57,8 @@
 
                 }
 
-                document.getElementById("out").innerHTML = str;
+                document.getElementById("out").innerHTML = json;
+                ws.send(JSON.stringify(json))
             }
             //   var normal = hand.palmNormal;
 
