@@ -1,1 +1,11 @@
-Don't let your memes be dreams - stay lit.
+###### Handy HEXercises
+
+### 2018 Hackathon Project ###
+
+--------------------
+
+## Requirements: ##
+ * Leap Motion device
+ * Leap Motion SDK 
+ * Websockets 
+
