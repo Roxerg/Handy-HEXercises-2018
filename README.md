@@ -14,8 +14,15 @@ https://developer-archive.leapmotion.com/documentation/python/api/Leap_Classes.h
 
 ## Team
 
-[Sadiq Baidani][https://github.com/sBaidani]
-[Karolis Spukas][https://github.com/KaroliShp]
-[Rokas Gudavicius][https://github.com/Roxerg]
-[Yu'an Liao][https://github.com/reper17]
-[Findlay Smith][https://github.com/findoslice]
+[Sadiq Baidani][sad]  
+[Karolis Spukas][spook]  
+[Rokas Gudavicius][rox]  
+[Yu'an Liao][egg]  
+[Findlay Smith][slice]  
+
+
+  [sad]: https://github.com/sBaidani
+  [spook]: https://github.com/KaroliShp
+  [rox]: https://github.com/Roxerg
+  [egg]: https://github.com/reper17
+  [slice]: https://github.com/findoslice
