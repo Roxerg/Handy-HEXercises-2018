@@ -4,7 +4,7 @@ Handy Hexercises
 
 ## About
 
-A project for [HEX 2018][https://joinhex.com/].
+A project for [HEX 2018][hex].
 
 Using Leap Motion API, this app provides monitoring and exercises for people with hand impairments, such as Parkinson's disease or cramps.
 
@@ -26,3 +26,4 @@ https://developer-archive.leapmotion.com/documentation/python/api/Leap_Classes.h
   [rox]: https://github.com/Roxerg
   [egg]: https://github.com/reper17
   [slice]: https://github.com/findoslice
+  [hex]: https://joinhex.com/
